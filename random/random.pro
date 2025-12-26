@@ -2,7 +2,7 @@ QT       += core gui
 TEMPLATE = lib
 CONFIG   += plugin
 
-# 输出文件的名字 (编译出来就是 JustInt16.dll)
+# 输出文件 (编译出来就是 JustInt16.dll)
 TARGET = JustInt16
 
 # 包含刚才写的代码
