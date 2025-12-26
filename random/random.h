@@ -1,19 +1,22 @@
-﻿#ifndef RANDOM_H
-#define RANDOM_H
+#ifndef JUSTINT16_H
+#define JUSTINT16_H
 
 #include "dataengineinterface.h"
 
-class Random : public QObject, public DataEngineInterface
+// 继承 Vofa+ 的数据引擎接口
+class JustInt16 : public QObject, public DataEngineInterface
 {
     Q_OBJECT
     Q_INTERFACES(DataEngineInterface)
-    Q_PLUGIN_METADATA(IID "VOFA+.Plugin.Random")
+    // 【关键】插件的唯一 ID，Vofa+ 靠这个识别插件
+    Q_PLUGIN_METADATA(IID "VOFA+.Plugin.JustInt16")
 
 public:
-    explicit Random();
-    ~Random();
+    explicit JustInt16();
+    ~JustInt16();
+
+    // 这是核心处理函数，Vofa+ 会把收到的数据扔进来
     void ProcessingDatas(char *data, int count);
-private:
-    uint32_t image_count_mutation_count_ = 0;
 };
-#endif // RANDOM_H
+
+#endif // JUSTINT16_H
