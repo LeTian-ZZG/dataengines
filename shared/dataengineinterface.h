@@ -82,7 +82,7 @@ class DataEngineInterface
 {
 
 public:
-    ~DataEngineInterface() {}
+    virtual ~DataEngineInterface() {}
     virtual void ProcessingDatas(char *data, int count) = 0;
 
     const QList<Frame> &frame_list() { return frame_list_; }
