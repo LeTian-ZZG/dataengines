@@ -80,11 +80,12 @@ struct Frame {
 
 class DataEngineInterface
 {
+
 public:
-    virtual ~DataEngineInterface() {}
+    // 建议加上 virtual 析构函数，防止内存泄漏
+    virtual ~DataEngineInterface() {} 
     virtual void ProcessingDatas(char *data, int count) = 0;
-    
-    // 把这两个函数也加上，防止以后报错
+
     const QList<Frame> &frame_list() { return frame_list_; }
     const QList<RawImage*> &image_channels() { return image_channels_; }
 
@@ -94,10 +95,10 @@ protected:
 };
 
 
-// 1. 定义 ID 宏
 #define DataEngineInterface_iid "VOFA+.Plugin.DataEngineInterface"
 
-// 2. 直接声明接口（不要包在 QT_NAMESPACE 里！）
+// ❌ 删掉了 QT_BEGIN_NAMESPACE
 Q_DECLARE_INTERFACE(DataEngineInterface, DataEngineInterface_iid)
+// ❌ 删掉了 QT_END_NAMESPACE
 
 #endif // DATAENGINEINTERFACE_H
