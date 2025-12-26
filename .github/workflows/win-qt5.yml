@@ -7,12 +7,14 @@ name: Windows Qt5.14.2
 
 on:
   push:
-    # branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'random/**'
       - '.github/workflows/win-qt5.yml'
   pull_request:
-    # branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'random/**'
       - '.github/workflows/win-qt5.yml'
