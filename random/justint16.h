@@ -2,12 +2,12 @@
 #define JUSTINT16_H
 
 #include <QObject>
-#include <QtPlugin> // ✅ 必须显式引用
-#include "dataengineinterface.h"
+#include <QtPlugin>
+// ✅ 关键修改：加上 "../" 去上一级目录找头文件
+#include "../dataengineinterface.h"
 
 // =========================================================================
-// 🚀 暴力修复：强制在这里声明接口，防止 MOC 在 include 文件里找不到
-// 即使 dataengineinterface.h 里已经写了，这里再写一次也能确保 MOC 看见
+// 🚀 暴力修复：强制在这里声明接口
 // =========================================================================
 Q_DECLARE_INTERFACE(DataEngineInterface, "VOFA+.Plugin.DataEngineInterface")
 
