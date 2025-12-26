@@ -1,5 +1,5 @@
 #include "justint16.h"
-#include <QtEndian> // 用于处理大小端转换
+#include <QtEndian> // 用于处理大小端转换1
 
 // 构造函数
 JustInt16::JustInt16()
