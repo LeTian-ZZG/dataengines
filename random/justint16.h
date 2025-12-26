@@ -3,7 +3,7 @@
 
 #include "dataengineinterface.h"
 
-// 继承 Vofa+ 的数据引擎接口
+// 继承 Vofa+ 的数据引擎
 class JustInt16 : public QObject, public DataEngineInterface
 {
     Q_OBJECT
