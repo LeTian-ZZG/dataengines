@@ -1,57 +1,31 @@
 #ifndef DATAENGINEINTERFACE_H
 #define DATAENGINEINTERFACE_H
 
+#include <QObject>
 #include <QVariantList>
-#include <QtCore>
+#include <QVector>
+#include <QtPlugin>  // ✅ 关键：必须显式包含这个头文件
 
+// 图片数据结构
 class RawImage {
 public:
     RawImage() {;}
     enum Format {
-        Format_Invalid,
-        Format_Mono,
-        Format_MonoLSB,
-        Format_Indexed8,
-        Format_RGB32,
-        Format_ARGB32,
-        Format_ARGB32_Premultiplied,
-        Format_RGB16,
-        Format_ARGB8565_Premultiplied,
-        Format_RGB666,
-        Format_ARGB6666_Premultiplied,
-        Format_RGB555,
-        Format_ARGB8555_Premultiplied,
-        Format_RGB888,
-        Format_RGB444,
-        Format_ARGB4444_Premultiplied,
-        Format_RGBX8888,
-        Format_RGBA8888,
-        Format_RGBA8888_Premultiplied,
-        Format_BGR30,
-        Format_A2BGR30_Premultiplied,
-        Format_RGB30,
-        Format_A2RGB30_Premultiplied,
-        Format_Alpha8,
-        Format_Grayscale8,
-        Format_BMP,
-        Format_GIF,
-        Format_JPG,
-        Format_PNG,
-        Format_PBM,
-        Format_PGM,
-        Format_PPM,
-        Format_XBM,
-        Format_XPM,
-        Format_SVG,
+        Format_Invalid, Format_Mono, Format_MonoLSB, Format_Indexed8,
+        Format_RGB32, Format_ARGB32, Format_ARGB32_Premultiplied,
+        Format_RGB16, Format_ARGB8565_Premultiplied, Format_RGB666,
+        Format_ARGB6666_Premultiplied, Format_RGB555, Format_ARGB8555_Premultiplied,
+        Format_RGB888, Format_RGB444, Format_ARGB4444_Premultiplied,
+        Format_RGBX8888, Format_RGBA8888, Format_RGBA8888_Premultiplied,
+        Format_BGR30, Format_A2BGR30_Premultiplied, Format_RGB30,
+        Format_A2RGB30_Premultiplied, Format_Alpha8, Format_Grayscale8,
+        Format_BMP, Format_GIF, Format_JPG, Format_PNG, Format_PBM,
+        Format_PGM, Format_PPM, Format_XBM, Format_XPM, Format_SVG,
     };
     void set(uchar *data, int len, int width, int height, Format format) {
         data_.resize(len);
         memcpy(data_.data(), data, len);
-        length_ = len;
-        format_ = format;
-        width_ = width;
-        height_ = height;
-        updated_ = true;
+        length_ = len; format_ = format; width_ = width; height_ = height; updated_ = true;
     }
     uchar *data() { return data_.data(); }
     int length() { return length_; }
@@ -60,16 +34,12 @@ public:
     Format format() { return format_; }
     bool updated() { return updated_; }
 private:
-//    uchar *data_;
     QVector<uchar> data_;
     Format format_;
-    int length_ = 0;
-    int width_ = 0;
-    int height_= 0;
-    bool updated_ = true;
+    int length_ = 0; int width_ = 0; int height_= 0; bool updated_ = true;
 };
 
-
+// 帧数据结构
 struct Frame {
     int start_index_ = 0;
     int end_index_ = 0;
@@ -78,12 +48,14 @@ struct Frame {
     bool is_valid_ = 0;
 };
 
+// 接口类定义
 class DataEngineInterface
 {
-
 public:
-    // 建议加上 virtual 析构函数，防止内存泄漏
-    virtual ~DataEngineInterface() {} 
+    // ✅ 必须是虚析构函数
+    virtual ~DataEngineInterface() {}
+    
+    // 纯虚函数
     virtual void ProcessingDatas(char *data, int count) = 0;
 
     const QList<Frame> &frame_list() { return frame_list_; }
@@ -94,11 +66,8 @@ protected:
     QList<RawImage*> image_channels_;
 };
 
-
-#define DataEngineInterface_iid "VOFA+.Plugin.DataEngineInterface"
-
-// ❌ 删掉了 QT_BEGIN_NAMESPACE
-Q_DECLARE_INTERFACE(DataEngineInterface, DataEngineInterface_iid)
-// ❌ 删掉了 QT_END_NAMESPACE
+// ✅ 关键修复：直接在这里声明接口，不要包裹在任何 Namespace 中
+// 第二个参数直接写字符串，防止宏定义出错
+Q_DECLARE_INTERFACE(DataEngineInterface, "VOFA+.Plugin.DataEngineInterface")
 
 #endif // DATAENGINEINTERFACE_H
